@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 import CreateEventModal from './CreateEventModal';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -26,15 +27,15 @@ const Header = () => {
             </div>
             
             <nav className="hidden md:flex space-x-8">
-              <a href="#" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">
+              <Link to="/" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">
                 Accueil
-              </a>
-              <a href="#" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">
+              </Link>
+              <Link to="/events" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">
                 Événements
-              </a>
-              <a href="#" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">
+              </Link>
+              <Link to="/about" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium">
                 À propos
-              </a>
+              </Link>
             </nav>
 
             <div className="flex items-center space-x-4">

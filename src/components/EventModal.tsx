@@ -1,7 +1,8 @@
 
 import React from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 interface EventProps {
   id: string;
@@ -31,6 +32,7 @@ interface EventModalProps {
 const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
   const handleReservation = () => {
     console.log('Réservation pour:', event.title);
+    toast.success(`Réservation confirmée pour: ${event.title}`);
     // Logique de réservation serait ajoutée ici
     onClose();
   };
@@ -40,6 +42,9 @@ const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
       <DialogContent className="sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle>{event.title}</DialogTitle>
+          <DialogDescription className="sr-only">
+            Détails de l'événement {event.title}
+          </DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>

@@ -2,9 +2,21 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      toast.success(`Recherche pour: ${searchQuery}`);
+      navigate(`/events?search=${encodeURIComponent(searchQuery)}`);
+    } else {
+      toast.error("Veuillez entrer un terme de recherche");
+    }
+  };
 
   return (
     <div className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 text-white">
@@ -32,8 +44,12 @@ const HeroSection = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="flex-1 border-0 text-gray-900 placeholder-gray-500 text-lg py-4 px-6 focus:outline-none focus:ring-0"
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
-              <Button className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-none rounded-r-full">
+              <Button 
+                onClick={handleSearch}
+                className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-none rounded-r-full"
+              >
                 Rechercher
               </Button>
             </div>
