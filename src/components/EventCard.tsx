@@ -14,9 +14,11 @@ interface Event {
   rating: number;
   reviews: number;
   price: string;
+  priceCategory: string;
   organizer: string;
-  type: 'Conférence' | 'Workshop' | 'Séminaire' | 'Formation' | 'Networking';
-  format: 'Présentiel' | 'En ligne';
+  type: string;
+  category: string;
+  format: string;
   image: string;
 }
 
@@ -41,7 +43,20 @@ const EventCard = ({ event }: EventCardProps) => {
   const getFormatColor = (format: string) => {
     return format === 'Présentiel' 
       ? 'bg-green-500 text-white' 
-      : 'bg-blue-500 text-white';
+      : format === 'En ligne'
+        ? 'bg-blue-500 text-white'
+        : 'bg-purple-500 text-white'; // For hybrid format
+  };
+
+  const getCategoryBadge = (category: string) => {
+    if (category === 'Voiture électrique') {
+      return (
+        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-xs font-medium ml-2">
+          ⚡ Voiture électrique
+        </span>
+      );
+    }
+    return null;
   };
 
   return (
@@ -71,6 +86,7 @@ const EventCard = ({ event }: EventCardProps) => {
         <div className="p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
             {event.title}
+            {getCategoryBadge(event.category)}
           </h3>
           <p className="text-gray-600 text-sm mb-4 line-clamp-2">
             {event.description}
@@ -88,6 +104,10 @@ const EventCard = ({ event }: EventCardProps) => {
             <div className="flex items-center">
               <span className="mr-2">👥</span>
               <span>{event.participants} participants</span>
+            </div>
+            <div className="flex items-center">
+              <span className="mr-2">💰</span>
+              <span>{event.priceCategory}</span>
             </div>
           </div>
 
