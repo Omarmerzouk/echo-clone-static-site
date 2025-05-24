@@ -1,3 +1,4 @@
+
 // Données des 25 événements
 const events = [
     {
@@ -696,8 +697,7 @@ function createEvent(event) {
         rating: (Math.random() * 1 + 4).toFixed(1),
         reviews: Math.floor(Math.random() * 100) + 20,
         price: formData.get('price') || 'Gratuit',
-        priceCategory: formData.get('price') && formData.get('price') !== 'Gratuit' ? '
-        Payant' : 'Gratuit',
+        priceCategory: formData.get('price') && formData.get('price') !== 'Gratuit' ? 'Payant' : 'Gratuit',
         organizer: 'Nouvel organisateur',
         type: formData.get('category'),
         category: formData.get('category'),
