@@ -26,7 +26,7 @@
             <div class="nav-actions">
                 <button class="btn-ghost" onclick="openLoginModal()">🔗 Connexion</button>
                 <button class="btn-primary" onclick="openRegisterModal()">📝 S'inscrire</button>
-                <button class="btn-primary" onclick="openCreateEventModal()">➕ Créer événement</button>
+                <button class="btn-primary" id="createEventBtn" onclick="openCreateEventModal()" style="display: none;">➕ Créer événement</button>
             </div>
         </div>
     </header>
@@ -59,6 +59,20 @@
                         <div class="stat-label">Participants</div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section des événements sur l'accueil -->
+    <section id="evenements-accueil" class="events-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Événements populaires</h2>
+                <button class="btn-filter" onclick="showSection('evenements')">Voir tous les événements</button>
+            </div>
+
+            <div class="events-grid" id="homeEventsGrid">
+                <!-- Les 6 premiers événements seront affichés ici -->
             </div>
         </div>
     </section>

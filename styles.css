@@ -767,3 +767,60 @@ section.active {
         max-height: 60vh;
     }
 }
+
+/* Section d'événements sur l'accueil */
+#evenements-accueil {
+    display: none;
+    padding: 60px 0;
+    background: white;
+}
+
+#evenements-accueil.active {
+    display: block;
+}
+
+#evenements-accueil .section-header h2 {
+    color: #1f2937;
+    font-size: 2rem;
+    margin: 0;
+}
+
+#evenements-accueil .btn-filter {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+#evenements-accueil .btn-filter:hover {
+    background: #1d4ed8;
+}
+
+#evenements-accueil .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+/* Responsive pour la section d'accueil */
+@media (max-width: 768px) {
+    #evenements-accueil {
+        padding: 40px 0;
+    }
+    
+    #evenements-accueil .events-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    #evenements-accueil .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}

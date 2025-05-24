@@ -430,13 +430,18 @@ const events = [
 
 let filteredEvents = [...events];
 let currentEvent = null;
+let isLoggedIn = false;
 
 // Navigation
 function showSection(sectionId) {
-    // Cacher toutes les sections
+    // Cacher toutes les sections sauf evenements-accueil qui reste toujours sur la page d'accueil
     const sections = document.querySelectorAll('section');
     sections.forEach(section => {
-        section.classList.remove('active');
+        if (section.id === 'evenements-accueil') {
+            section.classList.toggle('active', sectionId === 'accueil');
+        } else {
+            section.classList.remove('active');
+        }
     });
     
     // Afficher la section demandée
@@ -464,6 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Générer les événements
     generateEvents();
+    generateHomeEvents();
     
     // Gérer les clics sur les liens de navigation
     const navLinks = document.querySelectorAll('.nav-link');
@@ -474,24 +480,84 @@ document.addEventListener('DOMContentLoaded', function() {
             showSection(sectionId);
         });
     });
+
+    // Vérifier le fragment URL au chargement
+    const hash = window.location.hash.substring(1);
+    if (hash === 'evenements' || hash === 'apropos') {
+        showSection(hash);
+    }
 });
 
 // Recherche d'événements
 function searchEvents() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     if (query.trim()) {
+        // Si on tape quelque chose lié aux événements, aller directement à la section événements
+        const eventKeywords = ['evenement', 'événement', 'event', 'conference', 'conférence', 'workshop', 'seminaire', 'séminaire', 'formation', 'networking'];
+        const isEventRelated = eventKeywords.some(keyword => query.includes(keyword));
+        
         filteredEvents = events.filter(event => 
             event.title.toLowerCase().includes(query) ||
             event.location.toLowerCase().includes(query) ||
             event.country.toLowerCase().includes(query) ||
-            event.type.toLowerCase().includes(query)
+            event.type.toLowerCase().includes(query) ||
+            event.category.toLowerCase().includes(query)
         );
+        
         generateEvents();
-        showSection('evenements');
+        
+        if (isEventRelated || filteredEvents.length > 0) {
+            showSection('evenements');
+        }
+        
         showToast(`${filteredEvents.length} événement(s) trouvé(s) pour "${query}"`);
     } else {
         showToast('Veuillez entrer un terme de recherche', 'error');
     }
+}
+
+// Génération des événements pour l'accueil (6 premiers)
+function generateHomeEvents() {
+    const grid = document.getElementById('homeEventsGrid');
+    const homeEvents = events.slice(0, 6);
+    
+    grid.innerHTML = homeEvents.map(event => `
+        <div class="event-card" onclick="openEventModal(${event.id})">
+            <img src="${event.image}" alt="${event.title}" class="event-image">
+            <div class="event-content">
+                <div class="event-header">
+                    <span class="event-type">${event.type}</span>
+                    <span class="event-format ${event.format === 'Présentiel' ? 'format-presentiel' : 'format-enligne'}">
+                        ${event.format}
+                    </span>
+                </div>
+                <h3 class="event-title">${event.title}</h3>
+                <p class="event-description">${event.description}</p>
+                <div class="event-details">
+                    <div class="event-detail">
+                        <i class="fas fa-calendar"></i>
+                        <span>${event.date}</span>
+                    </div>
+                    <div class="event-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${event.location}</span>
+                    </div>
+                    <div class="event-detail">
+                        <i class="fas fa-users"></i>
+                        <span>${event.participants} participants</span>
+                    </div>
+                </div>
+                <div class="event-footer">
+                    <div class="event-rating">
+                        <span>⭐</span>
+                        <span>${event.rating}</span>
+                        <span style="color: #6b7280; font-size: 14px;">(${event.reviews} avis)</span>
+                    </div>
+                    <div class="event-price">${event.price}</div>
+                </div>
+            </div>
+        </div>
+    `).join('');
 }
 
 // Génération des cartes d'événements
@@ -582,7 +648,37 @@ function openRegisterModal() {
 }
 
 function openCreateEventModal() {
+    if (!isLoggedIn) {
+        showToast('Vous devez être connecté pour créer un événement', 'error');
+        openLoginModal();
+        return;
+    }
     openModal('createEventModal');
+}
+
+// Gestion de l'authentification
+function updateAuthState(loggedIn) {
+    isLoggedIn = loggedIn;
+    const createEventBtn = document.getElementById('createEventBtn');
+    const loginBtn = document.querySelector('.btn-ghost');
+    const registerBtn = document.querySelector('.btn-primary:not(#createEventBtn)');
+    
+    if (loggedIn) {
+        createEventBtn.style.display = 'inline-block';
+        loginBtn.style.display = 'none';
+        registerBtn.textContent = '🔄 Déconnexion';
+        registerBtn.onclick = logout;
+    } else {
+        createEventBtn.style.display = 'none';
+        loginBtn.style.display = 'inline-block';
+        registerBtn.textContent = '📝 S\'inscrire';
+        registerBtn.onclick = openRegisterModal;
+    }
+}
+
+function logout() {
+    updateAuthState(false);
+    showToast('Déconnexion réussie!');
 }
 
 // Création d'événement
@@ -604,13 +700,15 @@ function createEvent(event) {
         priceCategory: formData.get('price') && formData.get('price') !== 'Gratuit' ? 'Payant' : 'Gratuit',
         organizer: 'Nouvel organisateur',
         type: formData.get('category'),
+        category: formData.get('category'),
         format: formData.get('format'),
         image: formData.get('imageUrl') || 'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80'
     };
     
-    events.push(newEvent);
+    events.unshift(newEvent);
     filteredEvents = [...events];
     generateEvents();
+    generateHomeEvents();
     closeModal('createEventModal');
     showToast(`Événement "${newEvent.title}" créé avec succès!`);
     
@@ -738,12 +836,14 @@ function processPayment(event) {
 function login(event) {
     event.preventDefault();
     closeModal('loginModal');
+    updateAuthState(true);
     showToast('Connexion réussie!');
 }
 
 function register(event) {
     event.preventDefault();
     closeModal('registerModal');
+    updateAuthState(true);
     showToast('Inscription réussie!');
 }
 
@@ -785,5 +885,12 @@ document.addEventListener('input', function(e) {
             value = value.substring(0, 2) + '/' + value.substring(2, 4);
         }
         e.target.value = value;
+    }
+});
+
+// Navigation au clavier
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && e.target.id === 'searchInput') {
+        searchEvents();
     }
 });
