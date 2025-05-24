@@ -4,19 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GlobalEvents - Plateforme d'événements professionnels</title>
-    <meta name="description" content="Plateforme d'événements professionnels">
-    <meta name="author" content="GlobalEvents">
+    <title>EventHub - Plateforme d'Événements</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="nav-brand">
-                <div class="logo">🌐</div>
-                <h1>GlobalEvents</h1>
+                <div class="logo">⭐</div>
+                <h1>EventHub</h1>
             </div>
             <nav class="nav-menu">
                 <a href="#accueil" class="nav-link">Accueil</a>
@@ -24,128 +22,129 @@
                 <a href="#apropos" class="nav-link">À propos</a>
             </nav>
             <div class="nav-actions">
-                <button class="btn-ghost" onclick="openLoginModal()">🔗 Connexion</button>
+                <button class="btn-ghost" onclick="openLoginModal()">🔐 Se connecter</button>
                 <button class="btn-primary" onclick="openRegisterModal()">📝 S'inscrire</button>
-                <button class="btn-primary" id="createEventBtn" onclick="openCreateEventModal()" style="display: none;">➕ Créer événement</button>
+                <button id="createEventBtn" class="btn-primary" onclick="openCreateEventModal()" style="display: none;">➕ Créer un événement</button>
             </div>
         </div>
     </header>
 
     <!-- Section Accueil -->
-    <section id="accueil" class="hero-section">
-        <div class="hero-bg"></div>
-        <div class="container hero-content">
-            <div class="hero-text">
-                <div class="star">⭐</div>
-                <h1>Découvrez des événements<br><span class="highlight">extraordinaires</span></h1>
-                <p>Explorez les conférences, séminaires et événements les plus captivants à travers le monde entier</p>
-                
-                <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="Rechercher un événement, une ville, un pays...">
-                    <button onclick="searchEvents()" class="btn-search">Rechercher</button>
-                </div>
-
-                <div class="stats">
-                    <div class="stat">
-                        <div class="stat-number">500+</div>
-                        <div class="stat-label">Événements</div>
+    <section id="accueil" class="active">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-bg"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <div class="star">⭐</div>
+                    <h1>Découvrez les meilleurs <span class="highlight">événements</span> près de chez vous</h1>
+                    <p>Connectez-vous avec votre communauté et participez à des expériences inoubliables</p>
+                    
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Rechercher un événement, une ville, un type...">
+                        <button class="btn-search" onclick="searchEvents()">🔍 Rechercher</button>
                     </div>
-                    <div class="stat">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label">Pays</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">10K+</div>
-                        <div class="stat-label">Participants</div>
+                    
+                    <div class="stats">
+                        <div>
+                            <div class="stat-number">25+</div>
+                            <div class="stat-label">Événements disponibles</div>
+                        </div>
+                        <div>
+                            <div class="stat-number">10K+</div>
+                            <div class="stat-label">Participants</div>
+                        </div>
+                        <div>
+                            <div class="stat-number">15</div>
+                            <div class="stat-label">Pays</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Section des événements sur l'accueil -->
-    <section id="evenements-accueil" class="events-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Événements populaires</h2>
-                <button class="btn-filter" onclick="showSection('evenements')">Voir tous les événements</button>
+        <!-- Section Événements sur l'accueil -->
+        <section id="evenements-accueil" class="active">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Événements à la une</h2>
+                    <button class="btn-filter" onclick="showSection('evenements')">Voir tous les événements</button>
+                </div>
+                <div id="homeEventsGrid" class="events-grid"></div>
             </div>
-
-            <div class="events-grid" id="homeEventsGrid">
-                <!-- Les 6 premiers événements seront affichés ici -->
-            </div>
-        </div>
+        </section>
     </section>
 
     <!-- Section Événements -->
-    <section id="evenements" class="events-section">
+    <section id="evenements">
         <div class="container">
             <div class="section-header">
-                <h2>Découvrez <span id="eventCount">25</span> événements dans le monde</h2>
-                <button class="btn-filter" onclick="toggleFilters()">🔧 Filtres</button>
+                <h2>Tous les événements (<span id="eventCount">25</span>)</h2>
+                <button class="btn-filter" onclick="toggleFilters()">🔽 Filtres</button>
             </div>
-
+            
             <div class="events-layout">
-                <div class="filters-sidebar" id="filtersSidebar">
+                <div id="filtersSidebar" class="filters-sidebar">
                     <h3>Filtres</h3>
+                    
                     <div class="filter-group">
                         <h4>Pays</h4>
                         <label><input type="checkbox" value="France"> France</label>
                         <label><input type="checkbox" value="Allemagne"> Allemagne</label>
-                        <label><input type="checkbox" value="États-Unis"> États-Unis</label>
                         <label><input type="checkbox" value="Royaume-Uni"> Royaume-Uni</label>
-                        <label><input type="checkbox" value="Suède"> Suède</label>
-                        <label><input type="checkbox" value="Belgique"> Belgique</label>
-                        <label><input type="checkbox" value="Espagne"> Espagne</label>
-                        <label><input type="checkbox" value="Pays-Bas"> Pays-Bas</label>
-                        <label><input type="checkbox" value="Danemark"> Danemark</label>
                         <label><input type="checkbox" value="Suisse"> Suisse</label>
+                        <label><input type="checkbox" value="Belgique"> Belgique</label>
                     </div>
+                    
                     <div class="filter-group">
-                        <h4>Type</h4>
+                        <h4>Type d'événement</h4>
                         <label><input type="checkbox" value="Conférence"> Conférence</label>
                         <label><input type="checkbox" value="Workshop"> Workshop</label>
                         <label><input type="checkbox" value="Séminaire"> Séminaire</label>
                         <label><input type="checkbox" value="Formation"> Formation</label>
                         <label><input type="checkbox" value="Networking"> Networking</label>
                     </div>
+                    
                     <div class="filter-group">
                         <h4>Prix</h4>
                         <label><input type="checkbox" value="Gratuit"> Gratuit</label>
                         <label><input type="checkbox" value="Payant"> Payant</label>
                     </div>
-                    <button onclick="applyFilters()" class="btn-primary">Appliquer les filtres</button>
+                    
+                    <button class="btn-primary btn-full" onclick="applyFilters()">Appliquer les filtres</button>
                 </div>
-
-                <div class="events-grid" id="eventsGrid">
-                    <!-- Les événements seront générés par JavaScript -->
-                </div>
+                
+                <div id="eventsGrid" class="events-grid"></div>
             </div>
         </div>
     </section>
 
     <!-- Section À propos -->
-    <section id="apropos" class="about-section">
-        <div class="container">
-            <h2>À propos de GlobalEvents</h2>
-            <div class="about-content">
-                <p>GlobalEvents est la plateforme de référence pour découvrir et participer aux événements professionnels les plus innovants à travers le monde.</p>
-                <p>Notre mission est de connecter les professionnels avec les événements qui façonnent l'avenir de leur industrie.</p>
+    <section id="apropos">
+        <div class="about-section">
+            <div class="container">
+                <div class="about-content">
+                    <h2>À propos d'EventHub</h2>
+                    <p>EventHub est la plateforme de référence pour découvrir et participer aux meilleurs événements professionnels et personnels.</p>
+                    <p>Notre mission est de connecter les personnes passionnées et de créer des expériences enrichissantes qui favorisent l'apprentissage, le networking et l'innovation.</p>
+                    <p>Que vous soyez à la recherche de conférences technologiques, de workshops créatifs, ou d'événements de networking, EventHub vous aide à trouver exactement ce que vous cherchez.</p>
+                </div>
+                
                 <div class="features">
                     <div class="feature">
+                        <i class="fas fa-search"></i>
+                        <h3>Recherche avancée</h3>
+                        <p>Trouvez facilement les événements qui vous intéressent grâce à nos filtres intelligents.</p>
+                    </div>
+                    <div class="feature">
                         <i class="fas fa-globe"></i>
-                        <h3>Portée mondiale</h3>
-                        <p>Événements dans plus de 50 pays</p>
+                        <h3>Événements internationaux</h3>
+                        <p>Découvrez des événements dans le monde entier, en présentiel ou en ligne.</p>
                     </div>
                     <div class="feature">
                         <i class="fas fa-users"></i>
                         <h3>Communauté active</h3>
-                        <p>Plus de 10 000 participants</p>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-star"></i>
-                        <h3>Qualité garantie</h3>
-                        <p>Événements sélectionnés avec soin</p>
+                        <p>Rejoignez une communauté de professionnels et d'passionnés partageant vos intérêts.</p>
                     </div>
                 </div>
             </div>
@@ -160,7 +159,7 @@
             <form onsubmit="login(event)">
                 <input type="email" placeholder="Email" required>
                 <input type="password" placeholder="Mot de passe" required>
-                <button type="submit" class="btn-primary">Se connecter</button>
+                <button type="submit" class="btn-primary btn-full">Se connecter</button>
             </form>
         </div>
     </div>
@@ -174,60 +173,29 @@
                 <input type="text" placeholder="Nom complet" required>
                 <input type="email" placeholder="Email" required>
                 <input type="password" placeholder="Mot de passe" required>
-                <button type="submit" class="btn-primary">S'inscrire</button>
+                <button type="submit" class="btn-primary btn-full">S'inscrire</button>
             </form>
         </div>
     </div>
 
     <!-- Modal de création d'événement -->
     <div id="createEventModal" class="modal">
-        <div class="modal-content event-modal">
+        <div class="modal-content">
             <span class="close" onclick="closeModal('createEventModal')">&times;</span>
-            <h2>Créer un événement</h2>
-            <form onsubmit="createEvent(event)" class="create-event-form">
+            <h2>Créer un nouvel événement</h2>
+            <form class="create-event-form" onsubmit="createEvent(event)">
                 <div class="form-section">
                     <h3>Informations générales</h3>
                     <div class="form-group">
-                        <label>Titre de l'événement *</label>
-                        <input type="text" name="title" placeholder="Nom de votre événement" required>
+                        <label for="title">Titre de l'événement *</label>
+                        <input type="text" name="title" required>
                     </div>
                     <div class="form-group">
-                        <label>Description *</label>
-                        <textarea name="description" placeholder="Décrivez votre événement..." rows="4" required></textarea>
+                        <label for="description">Description *</label>
+                        <textarea name="description" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Date et heure *</label>
-                        <input type="datetime-local" name="dateTime" required>
-                    </div>
-                    <div class="form-group">
-                        <label>URL de l'image</label>
-                        <input type="url" name="imageUrl" placeholder="https://example.com/image.jpg">
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3>Type d'événement</h3>
-                    <div class="form-group">
-                        <label>Format *</label>
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="format" value="Présentiel" checked>
-                                <div>
-                                    <strong>Présentiel</strong>
-                                    <p>Événement physique avec lieu</p>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="format" value="En ligne">
-                                <div>
-                                    <strong>En ligne</strong>
-                                    <p>Événement virtuel</p>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Catégorie *</label>
+                        <label for="category">Catégorie *</label>
                         <select name="category" required>
                             <option value="">Sélectionner une catégorie</option>
                             <option value="Conférence">Conférence</option>
@@ -240,46 +208,74 @@
                 </div>
 
                 <div class="form-section">
-                    <h3>Localisation</h3>
+                    <h3>Date et lieu</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Adresse</label>
-                            <input type="text" name="address" placeholder="123 Rue Example">
+                            <label for="dateTime">Date et heure *</label>
+                            <input type="datetime-local" name="dateTime" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">Ville *</label>
+                            <input type="text" name="city" required>
                         </div>
                         <div class="form-group">
-                            <label>Ville *</label>
-                            <input type="text" name="city" placeholder="Paris" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Pays *</label>
-                            <input type="text" name="country" placeholder="France" required>
+                            <label for="country">Pays *</label>
+                            <input type="text" name="country" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-section">
-                    <h3>Prix</h3>
+                    <h3>Format de l'événement</h3>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="format" value="Présentiel" required>
+                            <div>
+                                <strong>Présentiel</strong>
+                                <p>Événement en personne dans un lieu physique</p>
+                            </div>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="format" value="En ligne" required>
+                            <div>
+                                <strong>En ligne</strong>
+                                <p>Événement virtuel accessible depuis n'importe où</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Tarification</h3>
                     <div class="form-group">
-                        <label>Prix de l'événement</label>
-                        <input type="text" name="price" placeholder="Gratuit ou 299€">
+                        <label for="price">Prix (laisser vide pour gratuit)</label>
+                        <input type="text" name="price" placeholder="ex: 99€">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Image</h3>
+                    <div class="form-group">
+                        <label for="imageUrl">URL de l'image (optionnel)</label>
+                        <input type="url" name="imageUrl" placeholder="https://exemple.com/image.jpg">
                     </div>
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" onclick="closeModal('createEventModal')" class="btn-secondary">Annuler</button>
+                    <button type="button" class="btn-secondary" onclick="closeModal('createEventModal')">Annuler</button>
                     <button type="submit" class="btn-primary">Créer l'événement</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modal d'événement -->
+    <!-- Modal de détail d'événement -->
     <div id="eventModal" class="modal">
         <div class="modal-content event-modal">
             <span class="close" onclick="closeModal('eventModal')">&times;</span>
-            <div id="eventModalContent">
-                <!-- Le contenu sera généré par JavaScript -->
-            </div>
+            <div id="eventModalContent"></div>
         </div>
     </div>
 
@@ -288,39 +284,44 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('paymentModal')">&times;</span>
             <h2>Paiement sécurisé</h2>
-            <div id="paymentContent">
-                <div class="payment-summary">
-                    <h3 id="paymentEventTitle"></h3>
-                    <p>Prix: <span id="paymentPrice"></span></p>
-                </div>
-                <form onsubmit="processPayment(event)">
-                    <div class="form-group">
-                        <label>Nom sur la carte</label>
-                        <input type="text" placeholder="Jean Dupont" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Numéro de carte</label>
-                        <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Expiration</label>
-                            <input type="text" placeholder="MM/AA" maxlength="5" required>
-                        </div>
-                        <div class="form-group">
-                            <label>CVV</label>
-                            <input type="text" placeholder="123" maxlength="3" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary btn-full">Confirmer le paiement</button>
-                </form>
+            
+            <div class="payment-summary">
+                <h3 id="paymentEventTitle">Nom de l'événement</h3>
+                <p>Prix: <strong id="paymentPrice">199€</strong></p>
             </div>
+            
+            <form onsubmit="processPayment(event)">
+                <div class="form-group">
+                    <label for="cardNumber">Numéro de carte</label>
+                    <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiryDate">Date d'expiration</label>
+                        <input type="text" placeholder="MM/AA" maxlength="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" placeholder="123" maxlength="3" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cardName">Nom sur la carte</label>
+                    <input type="text" placeholder="John Doe" required>
+                </div>
+                
+                <button type="submit" class="btn-primary btn-full">Confirmer le paiement</button>
+            </form>
         </div>
     </div>
 
     <!-- Toast notification -->
     <div id="toast" class="toast"></div>
 
+    <!-- Required Lovable script for new features -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script src="script.js"></script>
 </body>
 </html>
