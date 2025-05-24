@@ -41,7 +41,7 @@
                     <p>Connectez-vous avec votre communauté et participez à des expériences inoubliables</p>
                     
                     <div class="search-bar">
-                        <input type="text" id="searchInput" placeholder="Rechercher un événement, une ville, un type...">
+                        <input type="text" id="searchInput" placeholder="Rechercher un événement, une ville, un type..." onkeydown="if(event.key==='Enter') searchEvents()">
                         <button class="btn-search" onclick="searchEvents()">🔍 Rechercher</button>
                     </div>
                     
