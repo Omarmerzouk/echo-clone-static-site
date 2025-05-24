@@ -26,6 +26,7 @@
             <div class="nav-actions">
                 <button class="btn-ghost" onclick="openLoginModal()">🔗 Connexion</button>
                 <button class="btn-primary" onclick="openRegisterModal()">📝 S'inscrire</button>
+                <button class="btn-primary" onclick="openCreateEventModal()">➕ Créer événement</button>
             </div>
         </div>
     </header>
@@ -78,12 +79,21 @@
                         <label><input type="checkbox" value="France"> France</label>
                         <label><input type="checkbox" value="Allemagne"> Allemagne</label>
                         <label><input type="checkbox" value="États-Unis"> États-Unis</label>
+                        <label><input type="checkbox" value="Royaume-Uni"> Royaume-Uni</label>
+                        <label><input type="checkbox" value="Suède"> Suède</label>
+                        <label><input type="checkbox" value="Belgique"> Belgique</label>
+                        <label><input type="checkbox" value="Espagne"> Espagne</label>
+                        <label><input type="checkbox" value="Pays-Bas"> Pays-Bas</label>
+                        <label><input type="checkbox" value="Danemark"> Danemark</label>
+                        <label><input type="checkbox" value="Suisse"> Suisse</label>
                     </div>
                     <div class="filter-group">
                         <h4>Type</h4>
                         <label><input type="checkbox" value="Conférence"> Conférence</label>
                         <label><input type="checkbox" value="Workshop"> Workshop</label>
                         <label><input type="checkbox" value="Séminaire"> Séminaire</label>
+                        <label><input type="checkbox" value="Formation"> Formation</label>
+                        <label><input type="checkbox" value="Networking"> Networking</label>
                     </div>
                     <div class="filter-group">
                         <h4>Prix</h4>
@@ -151,6 +161,100 @@
                 <input type="email" placeholder="Email" required>
                 <input type="password" placeholder="Mot de passe" required>
                 <button type="submit" class="btn-primary">S'inscrire</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de création d'événement -->
+    <div id="createEventModal" class="modal">
+        <div class="modal-content event-modal">
+            <span class="close" onclick="closeModal('createEventModal')">&times;</span>
+            <h2>Créer un événement</h2>
+            <form onsubmit="createEvent(event)" class="create-event-form">
+                <div class="form-section">
+                    <h3>Informations générales</h3>
+                    <div class="form-group">
+                        <label>Titre de l'événement *</label>
+                        <input type="text" name="title" placeholder="Nom de votre événement" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description *</label>
+                        <textarea name="description" placeholder="Décrivez votre événement..." rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Date et heure *</label>
+                        <input type="datetime-local" name="dateTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label>URL de l'image</label>
+                        <input type="url" name="imageUrl" placeholder="https://example.com/image.jpg">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Type d'événement</h3>
+                    <div class="form-group">
+                        <label>Format *</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="format" value="Présentiel" checked>
+                                <div>
+                                    <strong>Présentiel</strong>
+                                    <p>Événement physique avec lieu</p>
+                                </div>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="format" value="En ligne">
+                                <div>
+                                    <strong>En ligne</strong>
+                                    <p>Événement virtuel</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Catégorie *</label>
+                        <select name="category" required>
+                            <option value="">Sélectionner une catégorie</option>
+                            <option value="Conférence">Conférence</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Séminaire">Séminaire</option>
+                            <option value="Formation">Formation</option>
+                            <option value="Networking">Networking</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Localisation</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Adresse</label>
+                            <input type="text" name="address" placeholder="123 Rue Example">
+                        </div>
+                        <div class="form-group">
+                            <label>Ville *</label>
+                            <input type="text" name="city" placeholder="Paris" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Pays *</label>
+                            <input type="text" name="country" placeholder="France" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Prix</h3>
+                    <div class="form-group">
+                        <label>Prix de l'événement</label>
+                        <input type="text" name="price" placeholder="Gratuit ou 299€">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal('createEventModal')" class="btn-secondary">Annuler</button>
+                    <button type="submit" class="btn-primary">Créer l'événement</button>
+                </div>
             </form>
         </div>
     </div>
