@@ -1,27 +1,208 @@
 
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GlobalEvents</title>
-    <meta name="description" content="Plateforme d'événements professionnels" />
-    <meta name="author" content="GlobalEvents" />
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalEvents - Plateforme d'événements professionnels</title>
+    <meta name="description" content="Plateforme d'événements professionnels">
+    <meta name="author" content="GlobalEvents">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo">🌐</div>
+                <h1>GlobalEvents</h1>
+            </div>
+            <nav class="nav-menu">
+                <a href="#accueil" class="nav-link">Accueil</a>
+                <a href="#evenements" class="nav-link">Événements</a>
+                <a href="#apropos" class="nav-link">À propos</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="btn-ghost" onclick="openLoginModal()">🔗 Connexion</button>
+                <button class="btn-primary" onclick="openRegisterModal()">📝 S'inscrire</button>
+            </div>
+        </div>
+    </header>
 
-    <meta property="og:title" content="GlobalEvents" />
-    <meta property="og:description" content="Découvrez des événements extraordinaires" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <!-- Section Accueil -->
+    <section id="accueil" class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="container hero-content">
+            <div class="hero-text">
+                <div class="star">⭐</div>
+                <h1>Découvrez des événements<br><span class="highlight">extraordinaires</span></h1>
+                <p>Explorez les conférences, séminaires et événements les plus captivants à travers le monde entier</p>
+                
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Rechercher un événement, une ville, un pays...">
+                    <button onclick="searchEvents()" class="btn-search">Rechercher</button>
+                </div>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@globalevents" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Événements</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Pays</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Participants</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <!-- Section Événements -->
+    <section id="evenements" class="events-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Découvrez <span id="eventCount">25</span> événements dans le monde</h2>
+                <button class="btn-filter" onclick="toggleFilters()">🔧 Filtres</button>
+            </div>
+
+            <div class="events-layout">
+                <div class="filters-sidebar" id="filtersSidebar">
+                    <h3>Filtres</h3>
+                    <div class="filter-group">
+                        <h4>Pays</h4>
+                        <label><input type="checkbox" value="France"> France</label>
+                        <label><input type="checkbox" value="Allemagne"> Allemagne</label>
+                        <label><input type="checkbox" value="États-Unis"> États-Unis</label>
+                    </div>
+                    <div class="filter-group">
+                        <h4>Type</h4>
+                        <label><input type="checkbox" value="Conférence"> Conférence</label>
+                        <label><input type="checkbox" value="Workshop"> Workshop</label>
+                        <label><input type="checkbox" value="Séminaire"> Séminaire</label>
+                    </div>
+                    <div class="filter-group">
+                        <h4>Prix</h4>
+                        <label><input type="checkbox" value="Gratuit"> Gratuit</label>
+                        <label><input type="checkbox" value="Payant"> Payant</label>
+                    </div>
+                    <button onclick="applyFilters()" class="btn-primary">Appliquer les filtres</button>
+                </div>
+
+                <div class="events-grid" id="eventsGrid">
+                    <!-- Les événements seront générés par JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section À propos -->
+    <section id="apropos" class="about-section">
+        <div class="container">
+            <h2>À propos de GlobalEvents</h2>
+            <div class="about-content">
+                <p>GlobalEvents est la plateforme de référence pour découvrir et participer aux événements professionnels les plus innovants à travers le monde.</p>
+                <p>Notre mission est de connecter les professionnels avec les événements qui façonnent l'avenir de leur industrie.</p>
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-globe"></i>
+                        <h3>Portée mondiale</h3>
+                        <p>Événements dans plus de 50 pays</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-users"></i>
+                        <h3>Communauté active</h3>
+                        <p>Plus de 10 000 participants</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-star"></i>
+                        <h3>Qualité garantie</h3>
+                        <p>Événements sélectionnés avec soin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de connexion -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Connexion</h2>
+            <form onsubmit="login(event)">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Mot de passe" required>
+                <button type="submit" class="btn-primary">Se connecter</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal d'inscription -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Inscription</h2>
+            <form onsubmit="register(event)">
+                <input type="text" placeholder="Nom complet" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Mot de passe" required>
+                <button type="submit" class="btn-primary">S'inscrire</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal d'événement -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content event-modal">
+            <span class="close" onclick="closeModal('eventModal')">&times;</span>
+            <div id="eventModalContent">
+                <!-- Le contenu sera généré par JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de paiement -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('paymentModal')">&times;</span>
+            <h2>Paiement sécurisé</h2>
+            <div id="paymentContent">
+                <div class="payment-summary">
+                    <h3 id="paymentEventTitle"></h3>
+                    <p>Prix: <span id="paymentPrice"></span></p>
+                </div>
+                <form onsubmit="processPayment(event)">
+                    <div class="form-group">
+                        <label>Nom sur la carte</label>
+                        <input type="text" placeholder="Jean Dupont" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Numéro de carte</label>
+                        <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Expiration</label>
+                            <input type="text" placeholder="MM/AA" maxlength="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" placeholder="123" maxlength="3" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full">Confirmer le paiement</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
 </html>
