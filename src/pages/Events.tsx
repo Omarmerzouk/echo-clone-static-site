@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from '@/components/Header';
 import FilterSidebar from '@/components/FilterSidebar';
 import EventCard from '@/components/EventCard';
@@ -12,6 +13,10 @@ const Events = () => {
     prices: [],
     formats: []
   });
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get('search')?.toLowerCase() || '';
 
   const events = [
     {
@@ -467,6 +472,22 @@ const Events = () => {
   ];
 
   const filteredEvents = events.filter(event => {
+    if (searchQuery) {
+      const searchFields = [
+        event.title,
+        event.description,
+        event.location,
+        event.country,
+        event.type,
+        event.category,
+        event.format
+      ].map(field => field?.toLowerCase() || '');
+
+      if (!searchFields.some(field => field.includes(searchQuery))) {
+        return false;
+      }
+    }
+
     if (filters.countries.length > 0 && !filters.countries.includes(event.country)) {
       return false;
     }
@@ -493,6 +514,7 @@ const Events = () => {
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold text-gray-900">
             Découvrez {filteredEvents.length} événements dans le monde
+            {searchQuery && <span className="text-gray-600 text-lg ml-2">pour "{decodeURIComponent(searchQuery)}"</span>}
           </h2>
           <div className="hidden md:flex">
             <button 
