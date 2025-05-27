@@ -468,7 +468,7 @@ const Events = () => {
       category: 'Voiture électrique',
       format: 'Hybride',
       image: 'https://images.unsplash.com/photo-1607197109166-3ab4ee4b00fc?auto=format&fit=crop&w=800&q=80'
-    },
+    }
   ];
 
   const filteredEvents = events.filter(event => {
