@@ -1,7 +1,8 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 
 interface EventProps {
@@ -23,6 +24,14 @@ interface EventProps {
   image: string;
 }
 
+interface Comment {
+  id: string;
+  author: string;
+  rating: number;
+  content: string;
+  date: string;
+}
+
 interface EventModalProps {
   event: EventProps;
   isOpen: boolean;
@@ -30,16 +39,64 @@ interface EventModalProps {
 }
 
 const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
+  const [newComment, setNewComment] = useState('');
+  const [newRating, setNewRating] = useState(5);
+  const [comments, setComments] = useState<Comment[]>([
+    {
+      id: '1',
+      author: 'Jean Dupont',
+      rating: 5,
+      content: 'Excellent événement, très enrichissant !',
+      date: '2024-02-15'
+    },
+    {
+      id: '2',
+      author: 'Marie Martin',
+      rating: 4,
+      content: 'Très intéressant, mais la salle était un peu petite.',
+      date: '2024-02-14'
+    }
+  ]);
+
   const handleReservation = () => {
-    console.log('Réservation pour:', event.title);
     toast.success(`Réservation confirmée pour: ${event.title}`);
-    // Logique de réservation serait ajoutée ici
     onClose();
+  };
+
+  const handleAddComment = () => {
+    if (!newComment.trim()) {
+      toast.error('Veuillez entrer un commentaire');
+      return;
+    }
+
+    const comment: Comment = {
+      id: Date.now().toString(),
+      author: 'Utilisateur',
+      rating: newRating,
+      content: newComment,
+      date: new Date().toISOString().split('T')[0]
+    };
+
+    setComments([comment, ...comments]);
+    setNewComment('');
+    setNewRating(5);
+    toast.success('Commentaire ajouté avec succès');
+  };
+
+  const renderStars = (rating: number) => {
+    return [...Array(5)].map((_, index) => (
+      <span
+        key={index}
+        className={`text-xl ${index < rating ? 'text-yellow-400' : 'text-gray-300'}`}
+      >
+        ★
+      </span>
+    ));
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-4xl">
+      <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{event.title}</DialogTitle>
           <DialogDescription className="sr-only">
@@ -106,6 +163,57 @@ const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
                 Réserver ma place
               </Button>
             </div>
+          </div>
+        </div>
+
+        {/* Section Commentaires */}
+        <div className="mt-8 border-t pt-6">
+          <h4 className="text-lg font-semibold mb-4">Commentaires et Avis</h4>
+          
+          {/* Formulaire d'ajout de commentaire */}
+          <div className="bg-gray-50 p-4 rounded-lg mb-6">
+            <div className="mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Votre note</label>
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => setNewRating(star)}
+                    className={`text-2xl ${star <= newRating ? 'text-yellow-400' : 'text-gray-300'} hover:text-yellow-400 transition-colors`}
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+            </div>
+            <Textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Partagez votre expérience..."
+              className="mb-3"
+            />
+            <Button onClick={handleAddComment} className="w-full">
+              Ajouter un commentaire
+            </Button>
+          </div>
+
+          {/* Liste des commentaires */}
+          <div className="space-y-4">
+            {comments.map((comment) => (
+              <div key={comment.id} className="bg-white p-4 rounded-lg border">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <p className="font-medium">{comment.author}</p>
+                    <div className="flex items-center">
+                      {renderStars(comment.rating)}
+                    </div>
+                  </div>
+                  <span className="text-sm text-gray-500">{comment.date}</span>
+                </div>
+                <p className="text-gray-600">{comment.content}</p>
+              </div>
+            ))}
           </div>
         </div>
       </DialogContent>

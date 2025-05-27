@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,8 +10,10 @@ const HeroSection = () => {
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
+      // Encode the search query and navigate to the events page with the search parameter
+      const encodedQuery = encodeURIComponent(searchQuery.trim().toLowerCase());
+      navigate(`/events?search=${encodedQuery}`);
       toast.success(`Recherche pour: ${searchQuery}`);
-      navigate(`/events?search=${encodeURIComponent(searchQuery)}`);
     } else {
       toast.error("Veuillez entrer un terme de recherche");
     }
